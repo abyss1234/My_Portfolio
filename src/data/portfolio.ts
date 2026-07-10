@@ -1,9 +1,10 @@
 export const profile = {
   name: "Ng Boon Bin",
   role: "Fresh Computer Science Graduate",
-  headline: "Building useful web apps with full-stack and applied AI experience.",
+  headline:
+    "Motivated Computer Science graduate seeking an entry-level technology role.",
   summary:
-    "I am a motivated Computer Science graduate from Taylors University, currently looking for junior software engineering or applied AI opportunities where I can contribute, learn quickly, and grow with a team.",
+    "I am open to opportunities in software development, backend systems, web applications, networking, automation, and AI-enabled products, where I can contribute practical skills while continuing to grow across the software development lifecycle.",
   email: "nboonbin@gmail.com",
   github: "https://github.com/abyss1234",
   linkedin: "https://linkedin.com/in/boonbin-ng",
@@ -14,20 +15,28 @@ export const profile = {
 
 export const skills = [
   {
-    category: "Programming",
-    items: ["TypeScript", "JavaScript", "Python", "SQL"],
+    category: "Languages",
+    items: ["Python", "Java", "C++", "HTML/CSS", "JavaScript", "TypeScript"],
   },
   {
-    category: "Frontend",
-    items: ["Astro", "React", "Next.js", "Tailwind CSS", "Responsive UI"],
+    category: "Frameworks & Web",
+    items: ["FastAPI", "JavaFX", "Next.js", "React", "Astro", "Tailwind CSS"],
   },
   {
-    category: "Backend & Data",
-    items: ["REST APIs", "Prisma", "PostgreSQL", "Authentication", "API Security"],
+    category: "Backend & Databases",
+    items: ["REST APIs", "Prisma", "MongoDB", "MySQL", "PostgreSQL"],
   },
   {
-    category: "Tools",
-    items: ["Git", "GitHub", "Vercel", "Chart.js", "MacroDroid"],
+    category: "DevOps & Platforms",
+    items: ["Docker", "GitHub Actions", "Ubuntu", "Linux", "Vercel", "GitHub"],
+  },
+  {
+    category: "AI / Computer Vision",
+    items: ["OpenCV", "scikit-learn", "TensorFlow", "PyTorch", "Machine Learning", "Ollama"],
+  },
+  {
+    category: "Automation & Integration",
+    items: ["OpenClaw", "Playwright", "MacroDroid", "Asterisk PBX"],
   },
   {
     category: "Soft Skills",
@@ -117,4 +126,5 @@ export const education = {
   degree: "Bachelor of Computer Science",
   school: "Taylors University",
   graduation: "2025",
+  cgpa: "3.37 / 4.0",
 };
