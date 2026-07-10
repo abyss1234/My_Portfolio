@@ -13,6 +13,11 @@ export const profile = {
   avatar: "/avatar.jpg",
 };
 
+export const contactForm = {
+  web3FormsAccessKey: "6831791c-6291-4ef3-9ada-7fd9ecc81d41",
+  subject: "New portfolio message from Ng Boon Bin website",
+};
+
 export const skills = [
   {
     category: "Languages",

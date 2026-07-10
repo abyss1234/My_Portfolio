@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import { education, experiences, profile, projects, skills } from "../data/portfolio";
+import { contactForm, education, experiences, profile, projects, skills } from "../data/portfolio";
 
 const navItems = [
   { label: "About", href: "#about" },
@@ -277,11 +277,15 @@ const navItems = [
           </div>
 
           <form
-            action={`mailto:${profile.email}`}
+            id="contact-form"
+            action="https://api.web3forms.com/submit"
             method="post"
-            enctype="text/plain"
             class="soft-card"
           >
+            <input type="hidden" name="access_key" value={contactForm.web3FormsAccessKey} />
+            <input type="hidden" name="subject" value={contactForm.subject} />
+            <input type="hidden" name="from_name" value={`${profile.name} Portfolio`} />
+            <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" />
             <div class="grid gap-5">
               <label class="form-label">
                 Name
@@ -296,6 +300,9 @@ const navItems = [
                 <textarea name="message" rows="6" required class="form-field py-3"></textarea>
               </label>
               <button type="submit" class="button button-dark">Send Message</button>
+              <p id="contact-result" class="form-status" role="status" aria-live="polite">
+                Feel free to reach out to me! 
+              </p>
             </div>
           </form>
         </div>
@@ -308,5 +315,52 @@ const navItems = [
         <p>&copy; 2026 {profile.name}. All rights reserved.</p>
       </div>
     </footer>
+    <script>
+      const form = document.getElementById("contact-form");
+      const result = document.getElementById("contact-result");
+
+      form?.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        if (!(form instanceof HTMLFormElement) || !result) {
+          return;
+        }
+
+        const formData = new FormData(form);
+        const accessKey = String(formData.get("access_key") || "");
+        if (!accessKey || accessKey === "YOUR_WEB3FORMS_ACCESS_KEY") {
+          result.textContent = "Contact form is not configured yet. Please add the Web3Forms access key.";
+          result.dataset.state = "error";
+          return;
+        }
+
+        result.textContent = "Sending message...";
+        result.dataset.state = "loading";
+
+        try {
+          const response = await fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+            },
+            body: formData,
+          });
+          const data = await response.json();
+
+          if (response.ok && data.success) {
+            result.textContent = "Message sent. Thank you for reaching out.";
+            result.dataset.state = "success";
+            form.reset();
+            return;
+          }
+
+          result.textContent = data.message || "Message could not be sent. Please try again later.";
+          result.dataset.state = "error";
+        } catch {
+          result.textContent = "Message could not be sent. Please email me directly instead.";
+          result.dataset.state = "error";
+        }
+      });
+    </script>
   </body>
 </html>
