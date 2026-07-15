@@ -163,16 +163,22 @@ const navItems = [
               <p class="eyebrow">Featured Project</p>
               <h2 class="section-title mt-4">One project, shown as a complete case study.</h2>
             </div>
-            <p class="max-w-md leading-7 text-[#5f6b7a]">
+            {/*<p class="max-w-md leading-7 text-[#5f6b7a]">
               The project area is data-driven, so future projects can be added without redesigning this
               page.
-            </p>
+            </p>*/}
           </div>
 
           <div class="mt-12 grid gap-8">
             {
               projects.map((project) => (
-                <article class="project-case">
+                //<article class="project-case"> original, below is changes
+                <article
+                  class:list={[
+                    "project-case",
+                    project.name === "Simple Finance" && "simple-finance-project",
+                  ]}
+                >
                   <div class="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
                     <div>
                       <p class="eyebrow">{project.type}</p>
@@ -198,13 +204,71 @@ const navItems = [
                     </div>
                   </div>
 
-                  <div class="mt-10 grid gap-4 md:grid-cols-2">
-                    {project.screenshots.map((screenshot) => (
-                      <figure class="project-shot">
-                        <img src={screenshot.src} alt={screenshot.alt} loading="lazy" />
-                        <figcaption>{screenshot.label}</figcaption>
-                      </figure>
-                    ))}
+                  <div
+                    class="project-carousel mt-10"
+                    data-carousel
+                    role="region"
+                    aria-label={`${project.name} interface screenshots`}
+                  >
+                    <div class="carousel-toolbar">
+                      <p class="carousel-title">Interface preview</p>
+                      <span class="carousel-status" data-carousel-status aria-live="polite">
+                        1-{Math.min(2, project.screenshots.length)} of {project.screenshots.length}
+                      </span>
+                    </div>
+
+                    <div class="carousel-stage">
+                      <button
+                        class="carousel-button carousel-button-previous"
+                        type="button"
+                        data-carousel-previous
+                        aria-label="Show previous screenshots"
+                        title="Previous screenshots"
+                      >
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                          <path d="m15 18-6-6 6-6"></path>
+                        </svg>
+                      </button>
+
+                      <div class="carousel-window">
+                        <div class="carousel-track" data-carousel-track tabindex="0">
+                          {project.screenshots.map((screenshot) => (
+                            <figure class="project-shot carousel-slide">
+                              <button
+                                class="project-shot-preview"
+                                type="button"
+                                data-zoom-image
+                                data-zoom-src={screenshot.src}
+                                data-zoom-alt={screenshot.alt}
+                                data-zoom-label={screenshot.label}
+                                aria-label={`Zoom in ${screenshot.label} screenshot`}
+                              >
+                                <img src={screenshot.src} alt={screenshot.alt} loading="lazy" />
+                                <span class="project-shot-zoom-icon" aria-hidden="true">
+                                  <svg viewBox="0 0 24 24">
+                                    <circle cx="10.5" cy="10.5" r="6.5"></circle>
+                                    <path d="m15.5 15.5 4 4M10.5 7.5v6M7.5 10.5h6"></path>
+                                  </svg>
+                                </span>
+                              </button>
+                              <figcaption>{screenshot.label}</figcaption>
+                            </figure>
+                          ))}
+                        </div>
+                      </div>
+
+                      <button
+                        class="carousel-button carousel-button-next"
+                        type="button"
+                        data-carousel-next
+                        aria-label="Show next screenshots"
+                        title="Next screenshots"
+                      >
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                          <path d="m9 18 6-6-6-6"></path>
+                        </svg>
+                      </button>
+                    </div>
                   </div>
 
                   <div class="mt-10 grid gap-5 lg:grid-cols-3">
@@ -309,6 +373,24 @@ const navItems = [
       </section>
     </main>
 
+    <dialog class="image-lightbox" data-image-lightbox aria-label="Expanded project screenshot">
+      <div class="image-lightbox-panel">
+        <button
+          class="image-lightbox-close"
+          type="button"
+          data-lightbox-close
+          aria-label="Close image preview"
+          title="Close"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m6 6 12 12M18 6 6 18"></path>
+          </svg>
+        </button>
+        <img class="image-lightbox-image" data-lightbox-image alt="" />
+        <p class="image-lightbox-caption" data-lightbox-caption></p>
+      </div>
+    </dialog>
+
     <footer class="bg-[#111827] py-8 text-white">
       <div class="section-shell flex flex-col gap-3 text-sm text-slate-300 md:flex-row md:items-center md:justify-between">
         <p><span class="font-semibold text-white">{profile.name}</span> &middot; Fresh Graduate Developer</p>
@@ -316,6 +398,169 @@ const navItems = [
       </div>
     </footer>
     <script>
+      const carousels = document.querySelectorAll<HTMLElement>("[data-carousel]");
+
+      carousels.forEach((carousel) => {
+        const track = carousel.querySelector<HTMLElement>("[data-carousel-track]");
+        const previousButton = carousel.querySelector<HTMLButtonElement>("[data-carousel-previous]");
+        const nextButton = carousel.querySelector<HTMLButtonElement>("[data-carousel-next]");
+        const status = carousel.querySelector<HTMLElement>("[data-carousel-status]");
+        const originalSlides = Array.from(carousel.querySelectorAll<HTMLElement>(".carousel-slide"));
+
+        if (!track || !previousButton || !nextButton || !status || originalSlides.length === 0) {
+          return;
+        }
+
+        const createClone = (slide: HTMLElement) => {
+          const clone = slide.cloneNode(true) as HTMLElement;
+          clone.dataset.carouselClone = "true";
+          clone.setAttribute("aria-hidden", "true");
+          clone.setAttribute("inert", "");
+          clone.querySelectorAll<HTMLElement>("button, a, input, textarea, select, [tabindex]").forEach((item) => {
+            item.tabIndex = -1;
+          });
+          clone.querySelectorAll<HTMLImageElement>("img").forEach((image) => {
+            image.loading = "eager";
+          });
+          return clone;
+        };
+
+        track.prepend(...originalSlides.map(createClone));
+        track.append(...originalSlides.map(createClone));
+
+        const slides = Array.from(track.querySelectorAll<HTMLElement>(".carousel-slide"));
+        const slideCount = originalSlides.length;
+        const originalStart = slideCount;
+        let currentPhysicalIndex = originalStart;
+        let isJumping = false;
+
+        const getSlidesPerView = () => (window.matchMedia("(min-width: 768px)").matches ? 2 : 1);
+        const getVisibleCount = () => Math.min(getSlidesPerView(), slideCount);
+        const modulo = (value: number, divisor: number) => ((value % divisor) + divisor) % divisor;
+        const getLogicalIndex = (physicalIndex = currentPhysicalIndex) =>
+          modulo(physicalIndex - originalStart, slideCount);
+        const getSlideOffset = (physicalIndex: number) =>
+          (slides[physicalIndex]?.offsetLeft ?? 0) - slides[0].offsetLeft;
+
+        const updateCarousel = () => {
+          const visibleCount = getVisibleCount();
+          const logicalIndex = getLogicalIndex();
+          const visibleEnd = modulo(logicalIndex + visibleCount - 1, slideCount) + 1;
+
+          status.textContent = visibleCount === 1
+            ? `${logicalIndex + 1} of ${slideCount}`
+            : `${logicalIndex + 1}-${visibleEnd} of ${slideCount}`;
+        };
+
+        const jumpToPhysicalSlide = (physicalIndex: number) => {
+          isJumping = true;
+          currentPhysicalIndex = physicalIndex;
+          const previousScrollBehavior = track.style.scrollBehavior;
+          track.style.scrollBehavior = "auto";
+          track.scrollLeft = getSlideOffset(physicalIndex);
+          updateCarousel();
+
+          window.requestAnimationFrame(() => {
+            track.style.scrollBehavior = previousScrollBehavior;
+            isJumping = false;
+          });
+        };
+
+        const goToPhysicalSlide = (physicalIndex: number) => {
+          currentPhysicalIndex = Math.max(0, Math.min(physicalIndex, slides.length - 1));
+
+          track.scrollTo({
+            left: getSlideOffset(currentPhysicalIndex),
+            behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+          });
+          updateCarousel();
+        };
+
+        const getNavigationBase = () => {
+          if (currentPhysicalIndex < originalStart || currentPhysicalIndex >= originalStart + slideCount) {
+            const normalizedIndex = originalStart + getLogicalIndex();
+            jumpToPhysicalSlide(normalizedIndex);
+            return normalizedIndex;
+          }
+
+          return currentPhysicalIndex;
+        };
+
+        previousButton.addEventListener("click", () => {
+          goToPhysicalSlide(getNavigationBase() - getVisibleCount());
+        });
+
+        nextButton.addEventListener("click", () => {
+          goToPhysicalSlide(getNavigationBase() + getVisibleCount());
+        });
+
+        let scrollTimer = 0;
+        track.addEventListener("scroll", () => {
+          if (isJumping) {
+            return;
+          }
+
+          window.clearTimeout(scrollTimer);
+          scrollTimer = window.setTimeout(() => {
+            const nearestSlide = slides.reduce((nearest, slide, index) => {
+              const firstSlideOffset = slides[0].offsetLeft;
+              const nearestDistance = Math.abs(slides[nearest].offsetLeft - firstSlideOffset - track.scrollLeft);
+              const slideDistance = Math.abs(slide.offsetLeft - firstSlideOffset - track.scrollLeft);
+              return slideDistance < nearestDistance ? index : nearest;
+            }, 0);
+
+            currentPhysicalIndex = nearestSlide;
+            updateCarousel();
+
+            if (currentPhysicalIndex < originalStart || currentPhysicalIndex >= originalStart + slideCount) {
+              jumpToPhysicalSlide(originalStart + getLogicalIndex());
+            }
+          }, 80);
+        }, { passive: true });
+
+        let resizeTimer = 0;
+        window.addEventListener("resize", () => {
+          window.clearTimeout(resizeTimer);
+          resizeTimer = window.setTimeout(() => {
+            jumpToPhysicalSlide(originalStart + getLogicalIndex());
+          }, 120);
+        });
+
+        jumpToPhysicalSlide(originalStart);
+      });
+
+      const lightbox = document.querySelector<HTMLDialogElement>("[data-image-lightbox]");
+      const lightboxImage = lightbox?.querySelector<HTMLImageElement>("[data-lightbox-image]");
+      const lightboxCaption = lightbox?.querySelector<HTMLElement>("[data-lightbox-caption]");
+      const lightboxCloseButton = lightbox?.querySelector<HTMLButtonElement>("[data-lightbox-close]");
+      const zoomButtons = document.querySelectorAll<HTMLButtonElement>(
+        ".carousel-slide:not([data-carousel-clone]) [data-zoom-image]",
+      );
+
+      if (lightbox && lightboxImage && lightboxCaption && lightboxCloseButton) {
+        zoomButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            lightboxImage.src = button.dataset.zoomSrc || "";
+            lightboxImage.alt = button.dataset.zoomAlt || "Project screenshot";
+            lightboxCaption.textContent = button.dataset.zoomLabel || "Project screenshot";
+
+            if (!lightbox.open) {
+              lightbox.showModal();
+            }
+          });
+        });
+
+        lightboxCloseButton.addEventListener("click", () => lightbox.close());
+        lightbox.addEventListener("click", (event) => {
+          if (event.target === lightbox) {
+            lightbox.close();
+          }
+        });
+        lightbox.addEventListener("close", () => {
+          lightboxImage.removeAttribute("src");
+        });
+      }
+
       const form = document.getElementById("contact-form");
       const result = document.getElementById("contact-result");
 
