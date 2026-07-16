@@ -33,11 +33,11 @@ export const skills = [
   },
   {
     category: "DevOps & Platforms",
-    items: ["Docker", "GitHub Actions", "Ubuntu", "Linux", "Vercel", "GitHub"],
+    items: ["Docker", "GitHub Actions", "Ubuntu", "Linux", "Vercel"],
   },
   {
     category: "AI / Computer Vision",
-    items: ["OpenCV", "scikit-learn", "TensorFlow", "PyTorch", "Machine Learning", "Ollama"],
+    items: ["OpenCV", "Machine Learning", "Ollama"],
   },
   {
     category: "Automation & Integration",

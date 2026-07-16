@@ -8,6 +8,55 @@ const navItems = [
   { label: "Projects", href: "#projects" },
   { label: "Contact", href: "#contact" },
 ];
+
+const skillGroupColors = ["#efc56f", "#5ed6c7", "#70a5ff", "#f18f6d", "#d78cff", "#68d391", "#f2a7c2"];
+
+const skillMarks: Record<string, string> = {
+  Python: "Py",
+  Java: "Jv",
+  "C++": "C+",
+  "HTML/CSS": "<>",
+  JavaScript: "JS",
+  TypeScript: "TS",
+  FastAPI: "FA",
+  JavaFX: "FX",
+  "Next.js": "N",
+  React: "R",
+  Astro: "A",
+  "Tailwind CSS": "TW",
+  "REST APIs": "API",
+  Prisma: "P",
+  MongoDB: "M",
+  MySQL: "My",
+  PostgreSQL: "Pg",
+  Docker: "D",
+  "GitHub Actions": "GA",
+  Ubuntu: "U",
+  Linux: "L",
+  Vercel: "V",
+  OpenCV: "CV",
+  "Machine Learning": "ML",
+  Ollama: "O",
+  OpenClaw: "OC",
+  Playwright: "PW",
+  MacroDroid: "MD",
+  "Asterisk PBX": "PBX",
+  Communication: "Co",
+  Teamwork: "Tm",
+  "Problem-solving": "PS",
+  Adaptability: "Ad",
+};
+
+const getSkillMark = (skill: string) =>
+  skillMarks[skill] ??
+  skill
+    .replace(/[^A-Za-z0-9 ]/g, " ")
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase();
 ---
 
 <!doctype html>
@@ -191,20 +240,30 @@ const navItems = [
         </div>
       </section>
 
-      <section id="skills" class="bg-[#f7f4ef] py-24">
-        <div class="section-shell">
-          <div class="max-w-2xl">
-            <p class="eyebrow">Skills</p>
-            <h2 class="section-title mt-4">Technical foundation I can keep building on.</h2>
+      <section id="skills" class="skills-section">
+        <div class="section-shell skills-shell">
+          <div class="skills-heading">
+            <p class="skills-kicker"><span aria-hidden="true">//</span> Technical stack</p>
+            <h2>Technologies</h2>
           </div>
-          <div class="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+
+          <div class="skills-grid">
             {
-              skills.map((group) => (
-                <article class="soft-card">
-                  <h3 class="text-lg font-semibold text-[#111827]">{group.category}</h3>
-                  <div class="mt-5 flex flex-wrap gap-2">
-                    {group.items.map((item) => <span class="skill-pill">{item}</span>)}
-                  </div>
+              skills.map((group, groupIndex) => (
+                <article
+                  class="skills-group"
+                  style={`--skill-accent: ${skillGroupColors[groupIndex % skillGroupColors.length]}`}
+                >
+                  <h3>{group.category}</h3>
+                  <div class="skills-divider" aria-hidden="true"></div>
+                  <ul class="skills-list">
+                    {group.items.map((item) => (
+                      <li class="technology-chip">
+                        <span class="technology-mark" aria-hidden="true">{getSkillMark(item)}</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </article>
               ))
             }
