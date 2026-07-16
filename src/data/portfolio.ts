@@ -51,29 +51,71 @@ export const skills = [
 
 export const experiences = [
   {
-    title: "Intern",
+    title: "Software / AI Automation Intern",
     organization: "Priority Dynamics Sdn Bhd",
     period: "April 2026 - June 2026",
+    focus: "Automation & agent workflows",
     description:
-      "Built automation workflows for social media data collection and explored local-first agent workflows for prompt-driven automation.",
+      "Built repeatable data-collection systems and explored local-first agent workflows, moving selected tasks from browser scraping toward maintainable API-based automation.",
+    outcomes: [
+      {
+        value: "API-first",
+        label: "More reliable data ingestion",
+      },
+      {
+        value: "Local-first",
+        label: "Prompt-driven agent workflows",
+      },
+    ],
     highlights: [
-      "Built Python automation workflows using APIs, Playwright, yt-dlp, and RapidAPI to reduce manual collection effort.",
-      "Replaced selected browser-scraping workflows with API-based data ingestion to improve reliability and maintainability.",
+      "Built Python workflows using APIs, Playwright, yt-dlp, and RapidAPI to improve repeatability and reduce manual collection effort.",
+      "Replaced selected browser-scraping workflows with API-based ingestion to improve reliability, maintenance, and collection speed.",
       "Configured local-first OpenClaw agent workflows to test prompt-driven automation, tool execution, hooks, and scheduled jobs.",
       "Cleaned, structured, and organized collected data for internal analysis while keeping platform-specific details confidential.",
     ],
+    technologies: ["Python", "REST APIs", "Playwright", "yt-dlp", "RapidAPI", "OpenClaw"],
   },
   {
     title: "R&D Department Intern",
     organization: "LeadAlways Technology (M) Sdn Bhd",
     period: "April 2024 - December 2024",
+    focus: "AI R&D, backend & computer vision",
     description:
-      "Researched open-source AI frameworks and built functional proof-of-concept applications across backend services, automation, and computer vision.",
+      "Turned open-source AI research into working prototypes across backend services, telephony automation, and real-time computer vision.",
+    outcomes: [
+      {
+        value: "3",
+        label: "Proof-of-concept applications delivered",
+      },
+      {
+        value: "50%",
+        label: "Improvement in yard visibility",
+      },
+      {
+        value: "0.77",
+        label: "mAP in real-time traffic analysis",
+      },
+    ],
     highlights: [
-      "Converted AI research into three proof-of-concept applications.",
-      "Wrote, tested, and refined production code with FastAPI, Docker, MongoDB, and Ubuntu.",
-      "Built an automated debt-reminder call platform using Asterisk PBX, Golang, Python, Azure Text to Speech, and WebSocket.",
-      "Deployed computer-vision pipelines with Ultralytics YOLO, OCR, FastAPI, and DeepSORT for container and traffic analysis use cases.",
+      "Converted research on open-source AI frameworks into three functional proof-of-concept applications.",
+      "Wrote, tested, and refined production code with FastAPI, Docker, MongoDB, and Ubuntu to improve deployment reliability.",
+      "Built an automated debt-reminder platform using Asterisk PBX, Golang, Python, Azure Text to Speech, and WebSocket-based call control.",
+      "Deployed a YOLO, OCR, and FastAPI pipeline for container identification and damage detection, streaming live status to dashboards.",
+      "Paired YOLO with DeepSORT to classify and count entering and exiting vehicles in real time.",
+    ],
+    technologies: [
+      "FastAPI",
+      "Docker",
+      "MongoDB",
+      "Ubuntu",
+      "Asterisk PBX",
+      "Golang",
+      "Python",
+      "Azure TTS",
+      "WebSocket",
+      "YOLO",
+      "OCR",
+      "DeepSORT",
     ],
   },
 ];

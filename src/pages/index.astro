@@ -100,34 +100,90 @@ const navItems = [
         </div>
       </section>
 
-      <section id="experience" class="bg-[#111827] py-24 text-white">
-        <div class="section-shell">
-          <div class="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
-            <div class="max-w-2xl">
-              <p class="eyebrow text-[#8ee0d4]">Experience</p>
-              <h2 class="mt-4 text-4xl font-semibold tracking-normal md:text-5xl">Internship experience.</h2>
+      <section id="experience" class="experience-section">
+        <div class="section-shell experience-layout">
+          <div class="experience-intro">
+            <p class="eyebrow text-[#76d9ca]">Experience</p>
+            <h2 class="experience-title">Building systems, not just observing them.</h2>
+            <p class="experience-summary">
+              Across automation and AI R&D internships, I turned research and repetitive tasks into
+              working APIs, agents, backend services, and computer-vision pipelines.
+            </p>
+
+            <div class="experience-overview">
+              <span class="experience-overview-number">
+                {String(experiences.length).padStart(2, "0")}
+              </span>
+              <p>
+                Industry internships
+                <span>Practical work across software and applied AI</span>
+              </p>
             </div>
-            {/* <p class="max-w-md leading-7 text-slate-300">
-              These are the working experiences from my resume, focused on applied AI, automation,
-              backend services, and practical software delivery.
-            </p> */}
           </div>
 
-          <div class="mt-14 grid gap-5">
+          <div class="experience-timeline">
             {
-              experiences.map((item) => (
-                <article class="experience-item">
-                  <div class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+              experiences.map((item, index) => (
+                <article class="experience-entry">
+                  <span class="experience-index" aria-hidden="true">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+
+                  <div class="experience-entry-top">
                     <div>
-                      <p class="text-sm font-semibold uppercase tracking-[0.16em] text-[#8ee0d4]">{item.period}</p>
-                      <h3 class="mt-2 text-2xl font-semibold">{item.title}</h3>
-                      <p class="mt-1 text-slate-300">{item.organization}</p>
+                      <p class="experience-focus">{item.focus}</p>
+                      <h3>{item.title}</h3>
+                      <p class="experience-company">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                          <path d="M4 21V5h10v16M14 9h6v12M8 9h2M8 13h2M8 17h2M17 13h1M17 17h1M2 21h20" />
+                        </svg>
+                        <span>{item.organization}</span>
+                      </p>
+                    </div>
+
+                    <p class="experience-period">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M7 3v3M17 3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v14H4V6a1 1 0 0 1 1-1Z" />
+                      </svg>
+                      <span>{item.period}</span>
+                    </p>
+                  </div>
+
+                  <p class="experience-description">{item.description}</p>
+
+                  <div class="experience-impact-grid" aria-label={`${item.title} key outcomes`}>
+                    {item.outcomes.map((outcome) => (
+                      <div class="experience-impact">
+                        <strong>{outcome.value}</strong>
+                        <span>{outcome.label}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div class="experience-contribution-block">
+                    <p class="experience-label">Selected contributions</p>
+                    <ul class="experience-contributions">
+                      {item.highlights.map((highlight) => (
+                        <li>
+                          <span class="experience-check" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="m7 12 3 3 7-7" /></svg>
+                          </span>
+                          <span>{highlight}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div class="experience-tools">
+                    <span class="experience-tools-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24">
+                        <path d="m8 9-3 3 3 3M16 9l3 3-3 3M14 5l-4 14" />
+                      </svg>
+                    </span>
+                    <div class="experience-tool-list">
+                      {item.technologies.map((technology) => <span>{technology}</span>)}
                     </div>
                   </div>
-                  <p class="mt-5 max-w-3xl leading-7 text-slate-300">{item.description}</p>
-                  <ul class="mt-5 grid list-disc gap-3 pl-5 text-slate-300">
-                    {item.highlights.map((highlight) => <li class="leading-7">{highlight}</li>)}
-                  </ul>
                 </article>
               ))
             }
