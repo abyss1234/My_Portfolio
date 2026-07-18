@@ -150,89 +150,31 @@ const getSkillMark = (skill: string) =>
       </section>
 
       <section id="experience" class="experience-section">
-        <div class="section-shell experience-layout">
-          <div class="experience-intro">
+        <div class="section-shell">
+          <header class="experience-heading">
             <p class="eyebrow text-[#76d9ca]">Experience</p>
-            <h2 class="experience-title">Building systems, not just observing them.</h2>
-            <p class="experience-summary">
-              Across automation and AI R&D internships, I turned research and repetitive tasks into
-              working APIs, agents, backend services, and computer-vision pipelines.
+            <h2>Practical experience.</h2>
+            <p>
+              Two internships focused on automation, backend systems, and applied AI.
             </p>
+          </header>
 
-            <div class="experience-overview">
-              <span class="experience-overview-number">
-                {String(experiences.length).padStart(2, "0")}
-              </span>
-              <p>
-                Industry internships
-                <span>Practical work across software and applied AI</span>
-              </p>
-            </div>
-          </div>
-
-          <div class="experience-timeline">
+          <div class="experience-grid">
             {
-              experiences.map((item, index) => (
-                <article class="experience-entry">
-                  <span class="experience-index" aria-hidden="true">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-
-                  <div class="experience-entry-top">
-                    <div>
-                      <p class="experience-focus">{item.focus}</p>
-                      <h3>{item.title}</h3>
-                      <p class="experience-company">
-                        <svg viewBox="0 0 24 24" aria-hidden="true">
-                          <path d="M4 21V5h10v16M14 9h6v12M8 9h2M8 13h2M8 17h2M17 13h1M17 17h1M2 21h20" />
-                        </svg>
-                        <span>{item.organization}</span>
-                      </p>
-                    </div>
-
-                    <p class="experience-period">
-                      <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M7 3v3M17 3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v14H4V6a1 1 0 0 1 1-1Z" />
-                      </svg>
-                      <span>{item.period}</span>
-                    </p>
-                  </div>
-
+              experiences.map((item) => (
+                <article class="experience-card">
+                  <time class="experience-date">{item.period}</time>
+                  <h3>{item.title}</h3>
+                  <p class="experience-company">{item.organization}</p>
                   <p class="experience-description">{item.description}</p>
 
-                  <div class="experience-impact-grid" aria-label={`${item.title} key outcomes`}>
-                    {item.outcomes.map((outcome) => (
-                      <div class="experience-impact">
-                        <strong>{outcome.value}</strong>
-                        <span>{outcome.label}</span>
-                      </div>
-                    ))}
-                  </div>
+                  <ul class="experience-achievements" aria-label={`${item.title} achievements`}>
+                    {item.highlights.map((highlight) => <li>{highlight}</li>)}
+                  </ul>
 
-                  <div class="experience-contribution-block">
-                    <p class="experience-label">Selected contributions</p>
-                    <ul class="experience-contributions">
-                      {item.highlights.map((highlight) => (
-                        <li>
-                          <span class="experience-check" aria-hidden="true">
-                            <svg viewBox="0 0 24 24"><path d="m7 12 3 3 7-7" /></svg>
-                          </span>
-                          <span>{highlight}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div class="experience-tools">
-                    <span class="experience-tools-icon" aria-hidden="true">
-                      <svg viewBox="0 0 24 24">
-                        <path d="m8 9-3 3 3 3M16 9l3 3-3 3M14 5l-4 14" />
-                      </svg>
-                    </span>
-                    <div class="experience-tool-list">
-                      {item.technologies.map((technology) => <span>{technology}</span>)}
-                    </div>
-                  </div>
+                  <ul class="experience-tags" aria-label={`${item.title} technologies`}>
+                    {item.technologies.map((technology) => <li>{technology}</li>)}
+                  </ul>
                 </article>
               ))
             }
