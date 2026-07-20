@@ -79,9 +79,20 @@ export const experiences = [
 export const projects = [
   {
     name: "Simple Finance",
-    type: "Full-stack case study",
+    eyebrow: "Full stack",
+    type: "Full-stack personal project",
     description:
-      "A personal finance app that helps users record, organize, and analyze income and expenses, with an automatic phone transaction import workflow.",
+      "A personal finance application for tracking income and expenses, visualizing spending patterns, and automatically importing phone transactions through MacroDroid.",
+    highlights: [
+      "Manage and categorize income and expense transactions.",
+      "View dashboard summaries and spending analytics.",
+      "Import phone transactions automatically through a protected API endpoint.",
+    ],
+    featuredTechnologies: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "MacroDroid"],
+    featuredImage: {
+      src: "/simple-finance-dashboard.png",
+      alt: "Simple Finance dashboard showing account summaries, transaction entry, and recent transactions",
+    },
     problem:
       "Manual expense tracking is easy to forget, especially for small daily transactions. This project reduces friction by combining a web dashboard with phone-side automation through MacroDroid.",
     role:
